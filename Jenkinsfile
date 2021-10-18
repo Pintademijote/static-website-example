@@ -28,13 +28,23 @@ pipeline{
            steps {
               script {
                 sh '''
-                    curl http://172.17.0.1 | grep -q "UNTITLED."
+                    curl http://172.17.0.1 | grep -q "DIMENSION"
                 '''
               }
            }
 		   }
 		
-
+	stage('Clean Container') {
+          agent any
+          steps {
+             script {
+               sh '''
+                 docker stop $IMAGE_NAME
+                 docker rm $IMAGE_NAME
+               '''
+             }
+          }
+     }
       }
 	  
 
