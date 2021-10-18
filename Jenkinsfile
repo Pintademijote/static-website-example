@@ -32,6 +32,7 @@ pipeline{
                 '''
               }
            }
+		   }
 		
 	stage('Clean Container') {
           agent any
@@ -44,7 +45,6 @@ pipeline{
              }
           }
      }
-    }
       }
 	  
 
