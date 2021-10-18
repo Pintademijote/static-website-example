@@ -28,7 +28,7 @@ pipeline{
            steps {
               script {
                 sh '''
-                    curl http://172.17.0.1 | grep -q "DIMENSION"
+                    curl http://172.17.0.1 | grep -q "UNTITLED."
                 '''
               }
            }
@@ -45,7 +45,24 @@ pipeline{
              }
           }
      }
-      }
+	 
+	 stage('Push docker') {
+        agent any
+         steps {
+           script {
+			node {
+				withCredentials([string(credentialsId: 'docker_pw', variable: 'SECRET')]) {
+					sh '''
+						docker login -u ${docker_user} -p ${SECRET}
+						docker image push pintade/$IMAGE_NAME:$IMAGE_TAG
+					'''
+				}
+			}
+			}
+        }
+     }
+	 
+    }
 	  
 
 	
