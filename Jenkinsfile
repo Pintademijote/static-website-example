@@ -10,7 +10,7 @@ pipeline{
 			agent any
             steps {
                 sh """
-                    docker build -t ${docker_user}/static-website-example:${IMAGE_TAG} .
+                    docker build -t ${docker_user}/${IMAGE_NAME}:${IMAGE_TAG} .
                 """
             }
         }
@@ -18,7 +18,7 @@ pipeline{
 			agent any
             steps{
                 sh """
-                    docker run --name $IMAGE_NAME -d -p 80:80 ${docker_user}/static-website-example:${IMAGE_TAG}
+                    docker run --name $IMAGE_NAME -d -p 80:80 ${docker_user}/${IMAGE_NAME}:${IMAGE_TAG}
                 """
             }
         }
@@ -54,7 +54,7 @@ pipeline{
 				withCredentials([string(credentialsId: 'docker_pw', variable: 'SECRET')]) {
 					sh '''
 						docker login -u ${docker_user} -p ${SECRET}
-						docker image push pintade/$IMAGE_NAME:$IMAGE_TAG
+						docker image push ${docker_user}/${IMAGE_NAME}:${IMAGE_TAG}
 					'''
 				}
 			}
