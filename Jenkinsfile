@@ -1,10 +1,8 @@
 pipeline{
      environment {
-       IMAGE_NAME = "alpinehelloworld"
+       IMAGE_NAME = "static"
        IMAGE_TAG = "latest"
-       STAGING = "pintade-staging"
-       PRODUCTION = "pintade-production"
-	   docker_user = "pintade"
+	docker_user = "pintade"
      }
     agent none
     stages {
@@ -12,7 +10,7 @@ pipeline{
 			agent any
             steps {
                 sh """
-                    docker build -t static-website-example .
+                    docker build -t ${docker_user}/static-website-example:${IMAGE_TAG} .
                 """
             }
         }
@@ -20,7 +18,7 @@ pipeline{
 			agent any
             steps{
                 sh """
-                    docker run -rm static-website-example
+                    docker run --name $IMAGE_NAME -d -p 80:80 ${docker_user}/static-website-example:${IMAGE_TAG}
                 """
             }
         }
