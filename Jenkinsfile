@@ -16,6 +16,7 @@ pipeline {
                 }
              }
         }
+	}
         stage('Run container based on builded image') {
             agent any
             steps {
@@ -52,6 +53,7 @@ pipeline {
        when {
               expression { GIT_BRANCH == 'origin/master' }
             }
+	}
 
 	
 	  stage('Push docker') {
@@ -95,4 +97,5 @@ pipeline {
     }
 
 }
+
 
